@@ -8,7 +8,7 @@ const k=new URLSearchParams(location.hash.slice(1)).get('k');
 if(!k||!/^[-_A-Za-z0-9]{43}$/.test(k)){message('请打开完整的体验链接','使用原消息中的链接或二维码。仅输入网址首页无法打开这个预览。',false);return}
 if(!globalThis.crypto?.subtle){message('请在系统浏览器中打开','复制完整链接，用 Safari 或 Chrome 打开。',false);return}
 let encrypted;
-try{const r=await fetch('./preview.bin?v=c4d1158b49ce',{credentials:'omit'});if(!r.ok)throw Error(r.status);encrypted=new Uint8Array(await r.arrayBuffer())}catch{message('页面未下载完成','检查网络后再试一次。',true);return}
+try{const r=await fetch('./preview.bin?v=755f282e8e58',{credentials:'omit'});if(!r.ok)throw Error(r.status);encrypted=new Uint8Array(await r.arrayBuffer())}catch{message('页面未下载完成','检查网络后再试一次。',true);return}
 try{const keyBytes=Uint8Array.from(atob(k.replace(/-/g,'+').replace(/_/g,'/')+'='),c=>c.charCodeAt(0));const key=await crypto.subtle.importKey('raw',keyBytes,{name:'AES-GCM'},false,['decrypt']);const clear=await crypto.subtle.decrypt({name:'AES-GCM',iv:encrypted.subarray(0,12)},key,encrypted.subarray(12));const page=new TextDecoder().decode(clear);document.open();document.write(page);document.close()}catch{message('无法打开这个预览','请从原消息重新复制完整链接，或重新扫码。',false)}
 })();
 </script></body></html>
